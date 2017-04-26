@@ -66,6 +66,14 @@
 				"description": "TotalCAE License Key"
 			}
 		},
+		"cidrblock": {
+			"maxLength": 30,
+			"defaultValue": "10.0.0.0/24",
+			"type": "String",
+			"metadata": {
+				"description": "CIDR Block for an existing site to site VPN virtual machine subnet"
+			}
+                 },
 		"downloadApplication": {
 			"defaultValue": "STAR-CCM+",
 			"allowedValues": [
@@ -105,7 +113,7 @@
 		"vhdContainerName": "[concat(variables('namingInfix'), 'vhd')]",
 		"osDiskName": "[concat(variables('namingInfix'), 'osdisk')]",
 		"addressPrefix": "10.0.0.0/16",
-		"subnetPrefix": "10.0.0.0/24",
+		"subnetPrefix": "[parameters('cidrblock')]",
 		"virtualNetworkName": "[concat(variables('namingInfix'), 'vnet')]",
 		"subnetName": "[concat(variables('namingInfix'), 'subnet')]",
 		"vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
@@ -114,7 +122,7 @@
 		"publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
 		"nicName": "[concat(variables('namingInfix'), 'nic')]",
 		"ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
-		"scriptUrl": "https://raw.githubusercontent.com/totalcae/public-cloud/master/",
+		"scriptUrl": "https://raw.githubusercontent.com/totalcae/p2c/master/",
 		"cnSetupScript": "make-node.sh",
 		"hnSetupScript": "make-head.sh",
 		"osType": {
@@ -258,7 +266,7 @@
 				"autoUpgradeMinorVersion": true,
 				"settings": {
 					"fileUris": "[variables('vmScripts').scriptsToDownload]",
-					"commandToExecute": "[concat('bash ', 'setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('TotalCAEKey'),' ',parameters('downloadApplication'), ' ', variables('namingInfix'),' ',parameters('instanceCount')) ]",
+					"commandToExecute": "[concat('bash ', 'setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('TotalCAEKey'),' ',parameters('downloadApplication'), ' ', variables('namingInfix'),' ',parameters('instanceCount'),' ',parameters('cidrblock') )]",
 					"timestamp": 4
 				}
 			},
