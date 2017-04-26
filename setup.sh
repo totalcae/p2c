@@ -24,6 +24,7 @@ export LICENSE_KEY=$3
 export APPLICATION=$4
 export NODEPREFIX=$5
 export INSTANCE_COUNT=$6
+export CIDRBLOCK=$7
 
 printenv > /tmp/ENVIRONMENT
 
